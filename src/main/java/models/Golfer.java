@@ -71,4 +71,8 @@ public class Golfer {
   public void addOdds(Event event, double odds) {
     oddsByEvent.put(event, odds);
   }
+
+  public Map<Event, Double> getOddsByEvent() {
+    return oddsByEvent;
+  }
 }

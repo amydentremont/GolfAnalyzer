@@ -1,5 +1,7 @@
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.Event;
 import models.Golfer;
@@ -7,7 +9,7 @@ import readers.EventsReader;
 import readers.GolfersReader;
 import readers.OddsAdder;
 
-public class Executor {
+public class Runner {
 
   public static void main(String[] args) throws FileNotFoundException {
     List<Golfer> golfers = GolfersReader.getGolfers();
@@ -18,5 +20,14 @@ public class Executor {
 
     OddsAdder.addOdds(golfers, events);
     System.out.println("Added odds for each event to golfers");
+
+    Map<Golfer, Double> averageOddsByGolfer = new HashMap<>();
+    for (Golfer golfer : golfers) {
+      double averageOdds = golfer.getOddsByEvent().values().stream()
+          .mapToDouble(a -> a)
+          .average().orElse(0);
+      averageOddsByGolfer.put(golfer, averageOdds);
+    }
+    System.out.println("Calculated simple average odds per player");
   }
 }
